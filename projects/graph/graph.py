@@ -50,7 +50,7 @@ class Graph:
         while q.size() > 0:
             v = q.dequeue()
             if v not in visited:
-                print(v)
+                # print(v)
                 visited.add(v)
                 for neighbor in self.vertices[v]:
                     q.enqueue(neighbor)
@@ -70,11 +70,11 @@ class Graph:
         s = Stack()
         s.push(starting_vertex)
         visited = set()
-        print('dft')
+        # print('dft')
         while s.size() > 0:
             v = s.pop()
             if v not in visited:
-                print(v)
+                # print(v)
                 visited.add(v)
                 for neighbor in self.vertices[v]:
                     s.push(neighbor)
@@ -86,7 +86,19 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        visited = set()
+        orderList = []
+        def innerRecursive(vertex):
+            if vertex in visited:
+                return 
+            else:
+                visited.add(vertex)
+                orderList.append(vertex)
+                for neighbor in self.vertices[vertex]:
+                    innerRecursive(neighbor)
+
+        innerRecursive(starting_vertex)
+        print(orderList)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -179,5 +191,5 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print(graph.dfs(1, 6))
-    print(graph.dfs_recursive(1, 6))
+    # print(graph.dfs(1, 6))
+    # print(graph.dfs_recursive(1, 6))
