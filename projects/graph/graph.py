@@ -28,7 +28,7 @@ class Graph:
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
@@ -44,7 +44,7 @@ class Graph:
                 # Then add all of its neighbors to the back of the queue.
         #queue first in first out.....
 
-        q =  Queue()
+        q = Queue()
         q.enqueue(starting_vertex)
         visited = set()
         while q.size() > 0:
@@ -87,14 +87,12 @@ class Graph:
         This should be done using recursion.
         """
         visited = set()
-        orderList = []
         def innerRecursive(vertex):
             if vertex in visited:
                 return 
             else:
                 visited.add(vertex)
-                orderList.append(vertex)
-                print(vertex)
+                # print(vertex)
                 for neighbor in self.vertices[vertex]:
                     if neighbor not in visited:
                         innerRecursive(neighbor)
@@ -107,7 +105,38 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        #create an empty queue and enqueue A PATH TO the starting vertex ID
+        #Create a set to store the visited vertices
+        #While the queue is not empty...
+            #Dequeue the first path
+            #Grab the last vertex from the PATH
+            #If the vertex has not been visited..
+                # Check if its the Target
+                #     if so return path
+                #   Mark as visiited...and
+                #   Then add a path to its neighbors to the back of the queue
+                #   copy the path
+                #   append the neighbor to the back....
+        q = Queue()
+        q.enqueue([starting_vertex])
+        visited = set()
+        if starting_vertex == destination_vertex:
+            return starting_vertex
+        
+        while q.size() > 0:
+            v = q.dequeue()
+            if v[-1] not in visited:
+                visited.add(v[-1])
+                for neighbor in self.vertices[v[-1]]:
+                    vList = v.copy()
+                    vList.append(neighbor)
+                    if neighbor == destination_vertex:
+                        return vList
+                    else:
+                        q.enqueue(vList)
+
+          
+              
 
     def dfs(self, starting_vertex, destination_vertex):
         """
