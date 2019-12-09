@@ -94,11 +94,12 @@ class Graph:
             else:
                 visited.add(vertex)
                 orderList.append(vertex)
+                print(vertex)
                 for neighbor in self.vertices[vertex]:
-                    innerRecursive(neighbor)
+                    if neighbor not in visited:
+                        innerRecursive(neighbor)
 
         innerRecursive(starting_vertex)
-        print(orderList)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
