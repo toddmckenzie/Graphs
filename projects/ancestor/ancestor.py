@@ -39,20 +39,21 @@ class Graph:
     def bfs(self, starting_node):
         
         q = Queue()
-        q.enqueue([starting_node])
+        q.enqueue(starting_node)
         visited = set()
         topAncestorList = [starting_node]
         
         while q.size() > 0:
             v = q.dequeue()
             print(v)
-            if v[-1] not in visited:
-                visited.add(v[-1])
-                for item in self.vertices[v[-1]]:
+            if v not in visited:
+                visited.add(v)
+                for item in self.vertices[v]:
                     topAncestorList.append(item)
+                    q.enqueue(item)
                 if len(topAncestorList) == 1:
                     return -1
-        print(topAncestorList[-1])
+        print(topAncestorList)
         return topAncestorList[-1]
 
 
