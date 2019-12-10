@@ -174,6 +174,7 @@ class Graph:
 
         def innerRecursive(vertex):
            if vertex not in visited:
+               print(visited)
                visited.add(vertex)
                results.append(vertex)
                for item in self.vertices[vertex]:
@@ -186,6 +187,8 @@ class Graph:
         innerRecursive(starting_vertex)
 
         return results
+
+
 
 
 if __name__ == '__main__':
