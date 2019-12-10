@@ -135,7 +135,6 @@ class Graph:
                     else:
                         q.enqueue(vList)
 
-          
               
 
     def dfs(self, starting_vertex, destination_vertex):
@@ -162,7 +161,7 @@ class Graph:
                         s.push(vList)
 
 
-    def dfs_recursive(self, starting_vertex):
+    def dfs_recursive(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -170,7 +169,24 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        visited = set()
+        results = []
+
+        def innerRecursive(vertex):
+           if vertex not in visited:
+               visited.add(vertex)
+               results.append(vertex)
+               for item in self.vertices[vertex]:
+                    if item == destination_vertex:
+                       results.append(item)
+                       return results
+                    else:
+                        innerRecursive(item)
+            
+        innerRecursive(starting_vertex)
+
+        return results
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
