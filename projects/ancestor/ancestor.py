@@ -46,11 +46,19 @@ class Graph:
         while q.size() > 0:
             v = q.dequeue()
             print(v)
+            tempList = []
             if v not in visited:
                 visited.add(v)
-                for item in self.vertices[v]:
-                    topAncestorList.append(item)
-                    q.enqueue(item)
+                for item in self.vertices[v]: #go back and put in temp list then sort them to lowest to high then loop through and find the lowest to place at the back of the list.
+                    # topAncestorList.append(item)
+                    # q.enqueue(item)
+                    tempList.append(item)
+                tempList.sort()
+                i = len(tempList) - 1
+                while i > -1:
+                    topAncestorList.append(tempList[i])
+                    q.enqueue(tempList[i])
+                    i -= 1
                 if len(topAncestorList) == 1:
                     return -1
         print(topAncestorList)
