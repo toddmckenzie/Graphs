@@ -45,7 +45,7 @@ class Graph:
         
         while q.size() > 0:
             v = q.dequeue()
-            print(v)
+            # print(v)
             tempList = []
             if v not in visited:
                 visited.add(v)
@@ -61,7 +61,7 @@ class Graph:
                     i -= 1
                 if len(topAncestorList) == 1:
                     return -1
-        print(topAncestorList)
+        # print(topAncestorList)
         return topAncestorList[-1]
 
 
