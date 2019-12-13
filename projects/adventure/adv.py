@@ -7,7 +7,7 @@ import random
 # Load world
 world = World()
 
-# You may uncomment the smaller graphs for development and testing purposes.
+# You may uncomment the smaller graphs for development and testing purposes.#
 # roomGraph={0: [(3, 5), {'n': 1}], 1: [(3, 6), {'s': 0, 'n': 2}], 2: [(3, 7), {'s': 1}]}
 # roomGraph={0: [(3, 5), {'n': 1, 's': 5, 'e': 3, 'w': 7}], 1: [(3, 6), {'s': 0, 'n': 2}], 2: [(3, 7), {'s': 1}], 3: [(4, 5), {'w': 0, 'e': 4}], 4: [(5, 5), {'w': 3}], 5: [(3, 4), {'n': 0, 's': 6}], 6: [(3, 3), {'n': 5}], 7: [(2, 5), {'w': 8, 'e': 0}], 8: [(1, 5), {'e': 7}]}
 roomGraph={0: [(3, 5), {'n': 1, 's': 5, 'e': 3, 'w': 7}], 1: [(3, 6), {'s': 0, 'n': 2}], 2: [(3, 7), {'s': 1}], 3: [(4, 5), {'w': 0, 'e': 4}], 4: [(5, 5), {'w': 3}], 5: [(3, 4), {'n': 0, 's': 6}], 6: [(3, 3), {'n': 5, 'w': 11}], 7: [(2, 5), {'w': 8, 'e': 0}], 8: [(1, 5), {'e': 7}], 9: [(1, 4), {'n': 8, 's': 10}], 10: [(1, 3), {'n': 9, 'e': 11}], 11: [(2, 3), {'w': 10, 'e': 6}]}
@@ -41,12 +41,16 @@ class Queue():
     def __init__(self):
         self.queue = []
     def enqueue(self, value):
-        self.queue.append(value)
+        if value != None:
+            self.queue.append(value)
     def dequeue(self):
         if self.size() > 0:
             return self.queue.pop(0)
         else:
             return None
+    def addBack(self, value):
+        self.queue.insert(0, value)
+
     def find(self, value):
         for i in self.queue:
             if i == value:
@@ -76,16 +80,6 @@ traversalPath = []
 # visited??? if visited still put in the list and move on.....maybe??? dft and build list...
 #best path 917.....
 
-# def dft(0):
-#     s = Stack()
-#     s.add(world.startingRoom)
-#     visited = set()
-#     while s.size() > 0:
-#         item = s.remove()
-#         if item not in visited:
-#             visited.add(item)
-#             print(item)
-
 
 
 
@@ -93,6 +87,56 @@ traversalPath = []
 visited_rooms = set()
 player.currentRoom = world.startingRoom
 # visited_rooms.add(player.currentRoom)
+
+# Start by writing an algorithm that picks a random unexplored direction from the player's current room, travels and logs that direction, then loops. This should cause your player to walk a depth-first traversal. When you reach a dead-end (i.e. a room with no unexplored paths), walk back to the nearest room that does contain an unexplored path.
+
+# def dft():
+#     s = Stack()
+#     s.push(0)
+#     while s.size() > 0:
+#         item = s.pop()
+#         if item not in visited:
+#             visited_rooms.add(item)
+#             print(item)
+#         for k,v in roomGraph[item][1].items():
+            
+# dft()
+
+def path(starting_pt):
+    traversalPath.append(starting_pt)
+    room = starting_pt
+    visited_rooms.add(room)
+    while len(visited_rooms) != len(roomGraph):
+        value = ['n', 's', 'e', 'w']
+        i = -1
+        while value[i] in roomGraph[room][1].keys():
+            print(value[i])
+            if value[i] in roomGraph[room][1].keys():
+                print('in here')
+                room = roomGraph[room][1][value[i]] 
+                print(room)
+                visited_rooms.add(room)
+                traversalPath.append(room)
+                # print(traversalPath)
+                print(visited_rooms)
+            if value[i] not in roomGraph[room][1].keys():
+                for k,v in roomGraph[room][1].items():
+                    if roomGraph[v][1].values() not in visited_rooms:
+                        for num in range(len(value) - 1):
+                            if value[num] == k:
+                                i = num
+                                break
+                    else:
+                        i = traversalPath[-1]
+                        break
+            if len(visited_rooms) == len(roomGraph):
+                i = 'g'
+                print('break??')
+                break
+
+
+path(0)
+# print(traversalPath)
 
 # def bft(startingPoint):
 #     q = Queue()
@@ -111,42 +155,75 @@ player.currentRoom = world.startingRoom
 # print(traversalPath)
 # secondVisited = set()
 
-q = Queue()
+# q = Queue()
 
 def poppedFunc():
-    popped = q.dequeue()
-    print(popped)
-    return popped
+    if q.size() > 0:
+        popped = q.dequeue()
+        # print(popped, 'popped')
+        return popped
 
-def dfs_recursive(room):
-    if room not in visited_rooms:
-        visited_rooms.add(room)
-        if len(traversalPath) > 0:
-            if room not in traversalPath:
-                q.enqueue(room)
-        for key, value in roomGraph[room][1].items():
-            dfs_recursive(value)
-            if len(traversalPath) == 0:
-                traversalPath.append(value)
-            elif value not in roomGraph[traversalPath[-1]][1].values():
-                print(traversalPath)
-                popped = poppedFunc()
-                if popped not in traversalPath and popped in roomGraph[traversalPath[-1]][1].values():
-                    traversalPath.append(popped)
-                else:
-                    print('here : ', traversalPath)
-                    dfs_recursive(popped)
-            elif value in roomGraph[traversalPath[-1]][1].values():
-                traversalPath.append(value)
-                if value == q.find(value):
-                    q.dequeue()
+def addToQueue(value):
+    return q.addBack(value)
+
+# def dfs_recursive(room):
+#     print(room)
+#     if room not in visited_rooms:
+#         visited_rooms.add(room)
+#         # if len(traversalPath) > 0:
+#         if room not in traversalPath:
+#             q.enqueue(room)
+#         # print(room)
+#         for key, value in roomGraph[room][1].items():
+#             # print(value)
+#             dfs_recursive(value)
+#             if len(traversalPath) == 0:
+#                 traversalPath.append(value)
+#             elif value not in roomGraph[traversalPath[-1]][1].values():
+#                 # print(traversalPath)
+#                 popped = poppedFunc()
+#                 if popped not in traversalPath and popped in roomGraph[traversalPath[-1]][1].values():
+#                         traversalPath.append(popped)
+#                 else:
+#                     if 0 in roomGraph[traversalPath[-1]][1].values():
+#                         traversalPath.append(0)
+#                         addToQueue(popped)
+       
+#             elif value in roomGraph[traversalPath[-1]][1].values():
+#                 traversalPath.append(value)
+#                 if value == q.find(value):
+#                     # q.dequeue()
+#                     poppedOff = poppedFunc()
+                    # print(poppedOff)
+                    # if poppedOff != value:
+                    #     print(poppedOff, ' here')
+                    #     q.enqueue(poppedOff)
                 
-                
-                
+# def dfs_recursive(room):
+#     print(room)
+#     q.enqueue(room)
+#     if len(traversalPath) > 0 and traversalPath[-1] in roomGraph[room][1].values(): 
+#         traversalPath.append(room)
+#     elif len(traversalPath) == 0:
+#         traversalPath.append(room)
+#     else:
+#         newRoom = poppedFunc()
+#         print(newRoom)
+#         traversalPath.append(newRoom)
+#     if room not in visited_rooms:
+#         visited_rooms.add(room)
+#         # if len(traversalPath) > 0:
+#         # print(room)
+#         for key, value in roomGraph[room][1].items():
+#             # print(value)
+#             if value not in visited_rooms:
+#                 dfs_recursive(value)
+
+            
                 
 
-dfs_recursive(0)
-print(traversalPath)
+# dfs_recursive(0)
+# print(traversalPath)
 
 
 # def dft(room):
@@ -162,20 +239,20 @@ print(traversalPath)
 #                     traversalPath.append(value)
 
 # dft(0)
-# print(traversalPath)
-# for move in traversalPath:
-#     player.travel(move)
-#     visited_rooms.add(player.currentRoom)
 
-# if len(visited_rooms) == len(roomGraph):
-#     print(f"TESTS PASSED: {len(traversalPath)} moves, {len(visited_rooms)} rooms visited")
-# else:
-#     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
-#     print(f"{len(roomGraph) - len(visited_rooms)} unvisited rooms")
-#     print('Here is len(roomGraph): ', len(roomGraph))
-#     print('here is len(visited_rooms) ', len(visited_rooms))
-#     print(len(traversalPath))
+for move in traversalPath:
+    player.travel(move)
+    # visited_rooms.add(player.currentRoom)
 
+if len(visited_rooms) == len(roomGraph):
+    print(f"TESTS PASSED: {len(traversalPath)} moves, {len(visited_rooms)} rooms visited")
+else:
+    print("TESTS FAILED: INCOMPLETE TRAVERSAL")
+    print(f"{len(roomGraph) - len(visited_rooms)} unvisited rooms")
+    print('Here is len(roomGraph): ', len(roomGraph))
+    print('here is len(visited_rooms) ', len(visited_rooms))
+    print(len(traversalPath))
+print(len(traversalPath))
 
 # #######
 # # UNCOMMENT TO WALK AROUND
