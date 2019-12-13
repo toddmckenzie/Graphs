@@ -106,29 +106,60 @@ def path(starting_pt):
     traversalPath.append(starting_pt)
     room = starting_pt
     visited_rooms.add(room)
+    num = 0
     while len(visited_rooms) != len(roomGraph):
         value = ['n', 's', 'e', 'w']
         i = -1
+        while value[i] not in roomGraph[room][1].keys():
+            i -= 1
         while value[i] in roomGraph[room][1].keys():
-            print(value[i])
-            if value[i] in roomGraph[room][1].keys():
-                print('in here')
+            # print('here')
+            flag = True
+            if value[i] in roomGraph[room][1].keys() and roomGraph[room][1][value[i]] not in visited_rooms:
                 room = roomGraph[room][1][value[i]] 
-                print(room)
                 visited_rooms.add(room)
-                traversalPath.append(room)
-                # print(traversalPath)
-                print(visited_rooms)
-            if value[i] not in roomGraph[room][1].keys():
+                if traversalPath[-1] != room:
+                    traversalPath.append(room)
+                print(traversalPath)
+            # if value[i] not in roomGraph[room][1].keys() or roomGraph[room][1][value[i]] in visited_rooms:
+            else:
                 for k,v in roomGraph[room][1].items():
+                    # print(len(roomGraph[room][1].items()))
+                    # print(v)
                     if roomGraph[v][1].values() not in visited_rooms:
-                        for num in range(len(value) - 1):
-                            if value[num] == k:
-                                i = num
-                                break
-                    else:
-                        i = traversalPath[-1]
-                        break
+                        if k == 'n':
+                            i = 0
+                            flag = False
+                            num = 0
+                            break
+                        elif k == 's':
+                            i = 1
+                            flag = False
+                            num = 0
+                            break
+                        elif k == 'e':
+                            i = 2
+                            flag = False
+                            num = 0
+                            break
+                        elif k == 'w':
+                            i = 3
+                            flag = False
+                            num = 0
+                            break
+                if flag:
+                    num -= 1
+                    room = traversalPath[num]
+                    print(room)
+                    traversalPath.append(room)
+                    num -= 1
+                #         room = traversalPath[-1]
+                # traversalPath.append(room)
+                # if num == range(len(value) -1):
+                #      room = traversalPath[-1]
+                #     traversalPath.append(room)
+                #     print(traversalPath)
+                            
             if len(visited_rooms) == len(roomGraph):
                 i = 'g'
                 print('break??')
@@ -136,7 +167,9 @@ def path(starting_pt):
 
 
 path(0)
-# print(traversalPath)
+print('heere')
+print(traversalPath)
+print('heere')
 
 # def bft(startingPoint):
 #     q = Queue()
