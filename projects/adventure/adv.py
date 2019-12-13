@@ -157,11 +157,20 @@ def path(starting_pt):
                             print(k)
                             break
                 if flag:
-                    num -= 1
+                    num -= 2
                     room = traversalPath[num]
-                    print(room)
-                    traversalPath.append(room)
-                    num -= 1
+                    # print('appended room here ')
+                    # print(room)
+                    # print(traversalPath)
+                    # print(num)
+                    last = traversalPath[-1]
+                    if room in roomGraph[last][1].values():
+                        traversalPath.append(room)
+                    else:
+                        num = -1
+                        traversalPath.append(room)
+
+                    # num -= 1
                 #         room = traversalPath[-1]
                 # traversalPath.append(room)
                 # if num == range(len(value) -1):
@@ -282,19 +291,19 @@ def addToQueue(value):
 
 # dft(0)
 
-for move in traversalPath:
-    player.travel(move)
-    # visited_rooms.add(player.currentRoom)
+# for move in traversalPath:
+#     player.travel(move)
+#     # visited_rooms.add(player.currentRoom)
 
-if len(visited_rooms) == len(roomGraph):
-    print(f"TESTS PASSED: {len(traversalPath)} moves, {len(visited_rooms)} rooms visited")
-else:
-    print("TESTS FAILED: INCOMPLETE TRAVERSAL")
-    print(f"{len(roomGraph) - len(visited_rooms)} unvisited rooms")
-    print('Here is len(roomGraph): ', len(roomGraph))
-    print('here is len(visited_rooms) ', len(visited_rooms))
-    print(len(traversalPath))
-print(len(traversalPath))
+# if len(visited_rooms) == len(roomGraph):
+#     print(f"TESTS PASSED: {len(traversalPath)} moves, {len(visited_rooms)} rooms visited")
+# else:
+#     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
+#     print(f"{len(roomGraph) - len(visited_rooms)} unvisited rooms")
+#     print('Here is len(roomGraph): ', len(roomGraph))
+#     print('here is len(visited_rooms) ', len(visited_rooms))
+#     print(len(traversalPath))
+# print(len(traversalPath))
 
 # #######
 # # UNCOMMENT TO WALK AROUND
