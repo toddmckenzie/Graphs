@@ -112,9 +112,10 @@ def path(starting_pt):
         i = -1
         while value[i] not in roomGraph[room][1].keys():
             i -= 1
-        while value[i] in roomGraph[room][1].keys():
+        while value[i] in roomGraph[room][1].keys() and len(visited_rooms) != len(roomGraph):
             # print('here')
             flag = True
+            print('back up here')
             if value[i] in roomGraph[room][1].keys() and roomGraph[room][1][value[i]] not in visited_rooms:
                 room = roomGraph[room][1][value[i]] 
                 visited_rooms.add(room)
@@ -126,26 +127,33 @@ def path(starting_pt):
                 for k,v in roomGraph[room][1].items():
                     # print(len(roomGraph[room][1].items()))
                     # print(v)
-                    if roomGraph[v][1].values() not in visited_rooms:
+                    if v not in visited_rooms:
+                        print(v)
+                        print(roomGraph[v][1].values())
+                        print(visited_rooms)
                         if k == 'n':
                             i = 0
                             flag = False
                             num = 0
+                            print(k)
                             break
                         elif k == 's':
                             i = 1
                             flag = False
                             num = 0
+                            print(k)
                             break
                         elif k == 'e':
                             i = 2
                             flag = False
                             num = 0
+                            print(k)
                             break
                         elif k == 'w':
                             i = 3
                             flag = False
                             num = 0
+                            print(k)
                             break
                 if flag:
                     num -= 1
