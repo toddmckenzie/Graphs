@@ -115,7 +115,6 @@ def path(starting_pt):
         while value[i] in roomGraph[room][1].keys() and len(visited_rooms) != len(roomGraph):
             # print('here')
             flag = True
-            print('back up here')
             if value[i] in roomGraph[room][1].keys() and roomGraph[room][1][value[i]] not in visited_rooms:
                 room = roomGraph[room][1][value[i]] 
                 visited_rooms.add(room)
@@ -129,32 +128,25 @@ def path(starting_pt):
                     # print(len(roomGraph[room][1].items()))
                     # print(v)
                     if v not in visited_rooms:
-                        print(v)
-                        print(roomGraph[v][1].values())
-                        print(visited_rooms)
                         if k == 'n':
                             i = 0
                             flag = False
                             num = 0
-                            print(k)
                             break
                         elif k == 's':
                             i = 1
                             flag = False
                             num = 0
-                            print(k)
                             break
                         elif k == 'e':
                             i = 2
                             flag = False
                             num = 0
-                            print(k)
                             break
                         elif k == 'w':
                             i = 3
                             flag = False
                             num = 0
-                            print(k)
                             break
                 if flag:
                     num -= 2
@@ -167,7 +159,8 @@ def path(starting_pt):
                     if room in roomGraph[last][1].values():
                         traversalPath.append(room)
                     else:
-                        num = -1
+                        num = -2
+                        room = traversalPath[num]
                         traversalPath.append(room)
 
                     # num -= 1
@@ -291,19 +284,19 @@ def addToQueue(value):
 
 # dft(0)
 
-# for move in traversalPath:
-#     player.travel(move)
-#     # visited_rooms.add(player.currentRoom)
+for move in traversalPath:
+    player.travel(move)
+    # visited_rooms.add(player.currentRoom)
 
-# if len(visited_rooms) == len(roomGraph):
-#     print(f"TESTS PASSED: {len(traversalPath)} moves, {len(visited_rooms)} rooms visited")
-# else:
-#     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
-#     print(f"{len(roomGraph) - len(visited_rooms)} unvisited rooms")
-#     print('Here is len(roomGraph): ', len(roomGraph))
-#     print('here is len(visited_rooms) ', len(visited_rooms))
-#     print(len(traversalPath))
-# print(len(traversalPath))
+if len(visited_rooms) == len(roomGraph):
+    print(f"TESTS PASSED: {len(traversalPath)} moves, {len(visited_rooms)} rooms visited")
+else:
+    print("TESTS FAILED: INCOMPLETE TRAVERSAL")
+    print(f"{len(roomGraph) - len(visited_rooms)} unvisited rooms")
+    print('Here is len(roomGraph): ', len(roomGraph))
+    print('here is len(visited_rooms) ', len(visited_rooms))
+    print(len(traversalPath))
+print(len(traversalPath))
 
 # #######
 # # UNCOMMENT TO WALK AROUND
